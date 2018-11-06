@@ -29,12 +29,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="scala" value="201" />
+          <entry key="scala" value="702" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Scala" value="201" />
+          <entry key="Scala" value="702" />
         </counts>
       </usages-collector>
     </session>
@@ -44,8 +44,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MyList.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="131" lean-forward="true" selection-start-line="131" selection-end-line="131" />
+            <state relative-caret-position="735">
+              <caret line="124" lean-forward="true" selection-start-line="124" selection-end-line="124" />
             </state>
           </provider>
         </entry>
@@ -61,7 +61,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="1921" />
-    <option name="width" value="1261" />
+    <option name="width" value="1296" />
     <option name="height" value="1167" />
   </component>
   <component name="ProjectView">
@@ -78,6 +78,11 @@
               <item name="MyList_Collection" type="b2602c69:ProjectViewProjectNode" />
               <item name="MyList_Collection" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="MyList_Collection" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MyList_Collection" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -85,6 +90,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../demo_filesystem" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -134,13 +140,13 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1921" y="0" width="1261" height="1167" extended-state="0" />
+    <frame x="1921" y="0" width="1296" height="1167" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Designer" />
       <window_info id="UI Designer" />
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14862682" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14454046" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" />
@@ -166,8 +172,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/MyList.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="131" lean-forward="true" selection-start-line="131" selection-end-line="131" />
+        <state relative-caret-position="735">
+          <caret line="124" lean-forward="true" selection-start-line="124" selection-end-line="124" />
         </state>
       </provider>
     </entry>

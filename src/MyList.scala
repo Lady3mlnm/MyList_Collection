@@ -96,38 +96,37 @@ object ListTest extends App {
   val cloneListOfIntegers: MyList[Int] = new Cons(1, new Cons(2, new Cons(3, Empty)))
   val listOfStrings: MyList[String] = new Cons("Hello", new Cons("Scala", Empty))
 
-  println(listOfIntegers.toString)   //> [1 2 3]
-  println(listOfStrings.toString)    //> [Hello Scala]
+  println(listOfIntegers.toString)                              //> [1 2 3]
+  println(listOfStrings.toString)                               //> [Hello Scala]
 
-  println(listOfIntegers.map(new Function1[Int, Int] {
-    override def apply(elem: Int): Int = elem * 2
-  }).toString)                       //> [2 4 6]
+  println(listOfIntegers.map(elem => elem * 2).toString)        //> [2 4 6]
+  println(listOfIntegers.map(_ * 2).toString)                   // syntax sugar
 
-  println(listOfIntegers.filter(new Function1[Int, Boolean] {
-    override def apply(elem: Int): Boolean = elem % 2 == 0
-  }).toString)                       //> [2]
+  println(listOfIntegers.filter(elem => elem % 2 ==0).toString) //> [2]
+  println(listOfIntegers.filter(_ % 2 ==0).toString)            // syntax sugar
 
   println((listOfIntegers ++ anotherListOfIntegers).toString)   //> [1 2 3 4 5]
 
-  println(listOfIntegers.flatMap(new Function1[Int, MyList[Int]] {
-    override def apply(elem: Int): MyList[Int] = new Cons(elem, new Cons(elem + 1, Empty))
-  }).toString)                       //> [1 2 2 3 3 4]
+  println(listOfIntegers.flatMap(elem => new Cons(elem, new Cons(elem + 1, Empty))).toString)  //> [1 2 2 3 3 4]
 
-  println( cloneListOfIntegers == listOfIntegers )    //> true
+  println( cloneListOfIntegers == listOfIntegers )              //> true
 
 
   // my additional tests
   println
 
-  val listMyTest = (listOfIntegers ++ anotherListOfIntegers).map(new Function1[Int, Int] {
-    override def apply(elem: Int): Int = elem * 10
-  })
-  println(listMyTest)                //> [10 20 30 40 50]
+  val listMyTest = (listOfIntegers ++ anotherListOfIntegers).map(elem => elem * 10)
+  println(listMyTest)                                                            //> [10 20 30 40 50]
+  println((listOfIntegers ++ anotherListOfIntegers).map(_ * 10))                 // syntax sugar
 
-  println(listMyTest.flatMap(new Function1[Int, MyList[Int]] {
-    override def apply(elem: Int): MyList[Int] = new Cons(elem,new Cons(elem + 2, Empty))
-  }))                                //> [10 12 20 22 30 32 40 42 50 52]
+  println(listMyTest.flatMap(elem => new Cons(elem,new Cons(elem + 2, Empty))))  //> [10 12 20 22 30 32 40 42 50 52]
 }
+
+
+
+/* TASK #6
+  Replace all FunctionX calls with lambdas
+*/
 
 
 
