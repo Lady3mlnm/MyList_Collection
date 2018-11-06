@@ -1,4 +1,4 @@
-abstract class MyList {
+abstract class MyList[+A] {   // use covariance
   /*
       head = first element of the list
       tail = remainder of the list
@@ -7,30 +7,30 @@ abstract class MyList {
       toString => a string representation of the list
    */
 
-  def head: Int
-  def tail: MyList
+  def head: A
+  def tail: MyList[A]
   def isEmpty: Boolean
-  def add(element: Int): MyList
+  def add[B >: A](element: B): MyList[B]
   def printElements: String
   // polymorphic call
   override def toString: String = "[" + printElements + "]"
 }
 
 
-object Empty extends MyList {
-  def head: Int = throw new NoSuchElementException
-  def tail: MyList = throw new NoSuchElementException
+object Empty extends MyList[Nothing] {
+  def head: Nothing = throw new NoSuchElementException
+  def tail: MyList[Nothing] = throw new NoSuchElementException
   def isEmpty: Boolean = true
-  def add(element: Int): MyList = new Cons(element, Empty)  // = def add(element: Int): MyList = new Cons(element, this)
+  def add[B >: Nothing](element: B): MyList[B] = new Cons(element, Empty)  // = def add[B >: Nothing](element: B): MyList[B] = new Cons(element, this)
   def printElements: String = ""
 }
 
 
-class Cons(h: Int, t: MyList) extends MyList {
-  def head: Int = h
-  def tail: MyList = t
+class Cons[+A](h: A, t: MyList[A]) extends MyList[A] {
+  def head: A = h
+  def tail: MyList[A] = t
   def isEmpty: Boolean = false
-  def add(element: Int): MyList = new Cons(element, this)
+  def add[B >: A](element: B): MyList[B] = new Cons(element, this)
   def printElements: String =
     if(t.isEmpty) "" + h           // for last link of the chain
     else h + " " + t.printElements
@@ -38,26 +38,24 @@ class Cons(h: Int, t: MyList) extends MyList {
 
 
 object ListTest extends App {
-  val list = new Cons(1, new Cons(2, new Cons(3, Empty)))
-  println(list.head)
-  println(list.tail.head)
-  println(list.add(4).head)
-  println(list.isEmpty)
+  val listOfIntegers: MyList[Int] = new Cons(1, new Cons(2, new Cons(3, Empty)))
+  val listOfStrings: MyList[String] = new Cons("Hello", new Cons("Scala", Empty))
 
-  println(list.toString)   // = println(list)
+  println(listOfIntegers.toString)
+  println(listOfStrings.toString)
 
 
   // my additional tests
   println
-  val listA = Empty
-  val listB = Empty
-  println(listA == listB)
+  val listOfIntegers2 = listOfIntegers.add(0)
+  val listOfStrings2 = listOfStrings.add("I'm here.")
 
-  println(listA.isEmpty)
-  println(listA.toString)
-  val listA1 = listA.add(100)
-  println(listA1.isEmpty)
-  println(listA1.toString)
-  val listA2 = listA1.add(200)
-  println(listA2.toString)
+  println(listOfIntegers2.toString)  // = println(listOfIntegers2)
+  println(listOfStrings2.toString)   // = println(listOfStrings2)
 }
+
+
+
+/* TASK #2
+  Expand MyList to be generic
+*/
