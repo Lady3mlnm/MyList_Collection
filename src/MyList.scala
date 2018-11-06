@@ -24,11 +24,11 @@ abstract class MyList[+A] {   // use covariance
 }
 
 
-object Empty extends MyList[Nothing] {
+case object Empty extends MyList[Nothing] {
   def head: Nothing = throw new NoSuchElementException
   def tail: MyList[Nothing] = throw new NoSuchElementException
   def isEmpty: Boolean = true
-  def add[B >: Nothing](element: B): MyList[B] = new Cons(element, Empty)  // = def add[B >: Nothing](element: B): MyList[B] = new Cons(element, this)
+  def add[B >: Nothing](element: B): MyList[B] = new Cons(element, Empty)
   def printElements: String = ""
 
   def map[B](transformer: MyTransformer[Nothing, B]): MyList[B] = Empty
@@ -39,13 +39,13 @@ object Empty extends MyList[Nothing] {
 }
 
 
-class Cons[+A](h: A, t: MyList[A]) extends MyList[A] {
+case class Cons[+A](h: A, t: MyList[A]) extends MyList[A] {
   def head: A = h
   def tail: MyList[A] = t
   def isEmpty: Boolean = false
   def add[B >: A](element: B): MyList[B] = new Cons(element, this)
   def printElements: String =
-    if(t.isEmpty) "" + h           // for last link of the chain
+    if(t.isEmpty) "" + h
     else h + " " + t.printElements
 
   /*
@@ -82,7 +82,7 @@ class Cons[+A](h: A, t: MyList[A]) extends MyList[A] {
     = [1,2] ++ [2].flatMap(n => [n, n+1])
     = [1,2] ++ [2,3] ++ Empty.flatMap(n => [n, n+1])
     = [1,2] ++ [2,3] ++ Empty
-    = [1,2,2,3]
+    = [1,2,2,3]git
    */
   def flatMap[B](transformer: MyTransformer[A, MyList[B]]): MyList[B] =
     transformer.transform(h) ++ t.flatMap(transformer)
@@ -101,6 +101,7 @@ trait MyTransformer[-A, B] {
 object ListTest extends App {
   val listOfIntegers: MyList[Int] = new Cons(1, new Cons(2, new Cons(3, Empty)))
   val anotherListOfIntegers: MyList[Int] = new Cons(4, new Cons(5, Empty))
+  val cloneListOfIntegers: MyList[Int] = new Cons(1, new Cons(2, new Cons(3, Empty)))
   val listOfStrings: MyList[String] = new Cons("Hello", new Cons("Scala", Empty))
 
   println(listOfIntegers.toString)   //> [1 2 3]
@@ -120,6 +121,8 @@ object ListTest extends App {
     override def transform(elem: Int): MyList[Int] = new Cons(elem, new Cons(elem + 1, Empty))
   }).toString)                       //> [1 2 2 3 3 4]
 
+  println( cloneListOfIntegers == listOfIntegers )    //> true
+
 
   // my additional tests
   println
@@ -133,6 +136,12 @@ object ListTest extends App {
     override def transform(elem: Int): MyList[Int] = new Cons(elem,new Cons(elem + 2, Empty))
   }))                                //> [10 12 20 22 30 32 40 42 50 52]
 }
+
+
+
+/* TASK #4
+  Expand MyList - use case classes and case objects
+*/
 
 
 
