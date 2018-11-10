@@ -165,36 +165,22 @@ object ListTest extends App {
   println(listOfIntegers.fold(0)(_ + _))                                                       //> 6
 
 
-  // additional tests for sort
-  println
-
-  val t1: MyList[Int] = new Cons (7, new Cons(1, new Cons(5, new Cons(6, new Cons(2, new Cons(3, Empty))))))
-  println(t1.sort((x,y) => x - y))                                                             //> [1 2 3 5 6 7]
-  println(t1.sort((x,y) => y - x))                                                             //> [7 6 5 3 2 1]
-
-
-  // other additional tests
-  try{
-    println(listOfIntegers.zipWith[String, String](listOfStrings, _ + "-" + _))       // java.lang.RuntimeException: Lists do not have the same length
-  } catch {
-    case e: RuntimeException => println(e)
-    case e: Exception => println("caught other exception")
-  }
-
-  println(new Cons(20, new Cons(30, Empty)).zipWith[String, String](listOfStrings, _ + "-" + _))  //> [20-Hello 30-Scala]
-
-  try{
-    println(new Cons(30, Empty).zipWith[String, String](listOfStrings, _ + "-" + _))  // java.lang.RuntimeException: Lists do not have the same length
-  } catch {
-    case e: RuntimeException => println(e)
-    case e: Exception => println("caught other exception")
-  }
-
-  println(listOfIntegers.fold(10)(_ + _))  //> 16
-  println(listOfIntegers.fold(0)(_ * _))   //> 0
-  println(listOfIntegers.fold(1)(_ * _))   //> 6
-  println(listOfIntegers.fold(2)(_ * _))   //> 12
+  // for comprehensions test
+  val combinations = for {
+    n <- listOfIntegers
+    string <- listOfStrings
+  } yield n + "-" + string
+  println(combinations)
 }
+
+
+
+/* TASK #8
+  MyList supports for comprehensions?
+    map(f: A => B) => MyList[B]
+    flatMap(f: A => MyList[B]) => MyList[B]
+    filter(p: A => Boolean) => MyList[A]
+*/
 
 
 
