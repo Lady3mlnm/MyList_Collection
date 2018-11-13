@@ -171,7 +171,40 @@ object ListTest extends App {
     string <- listOfStrings
   } yield n + "-" + string
   println(combinations)
+  println
+
+
+  // additional tests for pattern matching
+  val pmTest0: MyList[Int] = Empty
+  val pmTest1: MyList[Int] = new Cons(11, Empty)
+  val pmTest2: MyList[Int] = new Cons(22, new Cons(21, Empty))
+  val pmTest4: MyList[Int] = new Cons(44, new Cons( 43, new Cons(42, new Cons(41, Empty))))
+  val pmTest1a: MyList[Int] = new Cons(-1, Empty)
+  val pmTest2a: MyList[Int] = new Cons(22, new Cons(0, Empty))
+
+  def TestList(testCons: MyList[Int]): String =
+    testCons match {
+      case Empty => "List is empty"
+      case Cons(head, Cons(subhead, subtail)) if subhead ==0 => "Guard works"
+      case Cons(head, Cons(subhead, subtail)) => s"Head is $head, subhead is $subhead and tail is $subtail"
+      case Cons(-1, Empty) | Cons(-2, Empty) => "Multi-pattern works"    // don't use variable 'head' and 'tail' here -> error
+      case Cons(head, tail) => s"Head is $head and tail is $tail"
+      case _ => "something else"
+  }
+
+  println(TestList(pmTest0))   //> List is empty
+  println(TestList(pmTest1))   //> Head is 11 and tail is []
+  println(TestList(pmTest2))   //> Head is 22, subhead is 21 and tail is []
+  println(TestList(pmTest4))   //> Head is 44, subhead is 43 and tail is [42 41]
+  println(TestList(pmTest1a))  //> Multi-pattern works
+  println(TestList(pmTest2a))  //> Guard works
 }
+
+
+
+/* additional TASK #9
+  Test pattern matching
+*/
 
 
 
@@ -238,3 +271,68 @@ object ListTest extends App {
 /* TASK #2
   Expand MyList to be generic
 */
+
+
+
+
+
+
+/* alternative sort with tail call optimization, from the end of list
+  def sort(compare: (A, A) => Int): MyList[A] = {   // insertion sort, from end
+    @tailrec
+    def insert(sortedList1: MyList[A], z: A, sortedList2: MyList[A]): MyList[A] = {
+      if (sortedList2.isEmpty)
+        sortedList1 ++ new Cons(z, Empty)
+      else if (compare(z, sortedList2.head) <= 0)
+        sortedList1 ++ new Cons(z, sortedList2)
+      else
+        insert(sortedList1 ++ new Cons(sortedList2.head, Empty), z, sortedList2.tail)
+    }
+
+    val sortedTail = t.sort(compare)
+    insert(Empty, h, sortedTail)
+  }
+ */
+
+/* alternative sort with tail call optimization, from the end of list
+    def sort(compare: (A, A) => Int): MyList[A] = {   // insertion sort, from beginning
+      @tailrec
+      def insert(sortedList1: MyList[A], z: A, sortedList2: MyList[A]): MyList[A] =
+        if (sortedList2.isEmpty)
+          sortedList1 ++ new Cons(z, Empty)
+        else if (compare(z, sortedList2.head) <= 0)
+          sortedList1 ++ new Cons(z, sortedList2)
+        else
+          insert(sortedList1 ++ new Cons(sortedList2.head, Empty), z, sortedList2.tail)
+
+      @tailrec
+      def scroll(sortedList: MyList[A], unsortedList: MyList[A]): MyList[A] =
+        if (unsortedList.isEmpty)
+          sortedList
+        else
+          scroll(insert(Empty, unsortedList.head, sortedList), unsortedList.tail)
+
+      scroll(Empty, this)               // alternative:  if (t.isEmpty) this
+                                        //               else scroll(new Cons(h, Empty), t)
+    }
+ */
+
+/* commands for tests of sort-method
+  val listOfIntegers: MyList[Int] = new Cons(1, new Cons(2, new Cons(3, Empty)))
+  println(listOfIntegers.sort((x,y) => x - y))  // = println(listOfIntegers.sort(-_ + _))      //> [1 2 3]
+  println(listOfIntegers.sort((x,y) => y - x))  // = println(listOfIntegers.sort(-_ + _))      //> [3 2 1]
+
+  val t1: MyList[Int] = new Cons (7, new Cons(1, new Cons(5, new Cons(6, new Cons(2, new Cons(4, Empty))))))
+  // val t1: MyList[Int] = new Cons(5, new Cons(4, new Cons(3, new Cons(2, new Cons(1, Empty)))))
+  // val t1: MyList[Int] = new Cons(1, new Cons(2, new Cons(3, new Cons(4, new Cons(5, Empty)))))
+  println(t1.sort((x,y) => x - y))                 //> [1 2 3 5 6 7]
+  println(t1.sort((x,y) => y - x))                 //> [7 6 5 3 2 1]
+
+  val t2: MyList[Int] = new Cons(3, Empty)
+  println(t2.sort((x,y) => x - y))                 //> [3]
+  println(t2.sort((x,y) => y - x))                 //> [3]
+
+  val t3: MyList[Int] = Empty
+  println(t3.sort((x,y) => x - y))                 //> []
+  println(t3.sort((x,y) => y - x))                 //> []
+ */
